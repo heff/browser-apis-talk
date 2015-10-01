@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Other browser APIs that are changing video</title>
+
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Hakim El Hattab">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <style media="screen">
+      .no-border {
+        border: none !important;
+        background: none !important;
+      }
+    </style>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+        <section data-background="img/earth2.png">
+          <h1><i>Other</i> browser APIs</h1>
+          <h3>that are changing video</h3>
+          <p>
+            <small><a href="http://heff.me">Steve Heffernan</a> / <a href="http://twitter.com/hef">@heff</a></small>
+          </p>
+        </section>
+
+        <section data-background="img/elsewhere-dark.png">
+          <h3>What you've heard of elsewhere...</h3>
+          <ul>
+            <li>HTML5 video</li>
+            <li>Media Source Extensions (MSE)</li>
+            <li>Encrypted Media Extensions (EME)</li>
+            <li>WebRTC</li>
+          </ul>
+        </section>
+
+        <section data-transition="none">
+          <h3>Normal HTML5 Video</h3>
+          <img src="/img/picky-eater.jpg" />
+        </section>
+        <section data-transition="none">
+          <h3>HTML5 Video + MSE</h3>
+          <img src="/img/kevin-fed.jpg" />
+        </section>
+        <section data-transition="none">
+          <h3>HTML5 Video + MSE + EME</h3>
+          <img src="/img/eme.png" />
+        </section>
+
+        <section data-transition="none">
+          <h3>HTML5 Video + MSE + EME</h3>
+          <img src="/img/eme.png" />
+        </section>
+
+        <section data-transition="none">
+          <h1><em>Other</em></h1>
+        </section>
+
+        <section data-transition="none" data-background="img/streams.png">
+          <h1 style="font-size: 5em;">STREAMS</h1>
+
+          <!-- <blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
+            &ldquo;...the platform is full of streaming abstractions waiting to be expressed as streams: multimedia streams, file streams, interprocess communication, and more benefit from being able to process data incrementally instead of buffering it all into memory and processing it in one go.&rdquo;
+          </blockquote> -->
+
+          <aside class="notes">
+
+          </aside>
+        </section>
+
+        <section>
+          <h3>Stream code</h3>
+
+          <pre><code>
+          readableStream.pipeTo(new WritableStream({
+            write(chunk) {
+              console.log("Chunk received", chunk);
+            },
+            close() {
+              console.log("All data successfully read!");
+            },
+            abort(r) {
+              console.error("Something went wrong!", e);
+            }
+          }));
+          </code></pre>
+        </section>
+
+        <section data-transition="none">
+          <h3>Streaming Video Without Streams</h3>
+          <img src="img/xhr.png" class="no-border">
+
+          <aside class="notes">
+            Two issues, speed and memeory
+          </aside>
+        </section>
+
+        <section data-transition="fade">
+          <h3>Streaming Video With Streams</h3>
+          <img src="img/fetch.png" class="no-border">
+        </section>
+
+        <section>
+          <h3>Fetch + Streams</h3>
+
+          <pre><code>
+            fetch('/video-segment.mp4').then(function(response) {
+              var responseStream = response.body.getReader();
+
+              sourceBuffer.appendStream(responseStream);
+            });
+          </code></pre>
+
+        </section>
+
+        <section data-transition="fade">
+          <h3>Pipe Chain</h3>
+          <img src="img/transform.png" class="no-border">
+        </section>
+
+        <section>
+          <h3>What can we do with Streams?</h3>
+          <ul>
+            <li>Faster start times and seek times</li>
+            <li>Transmuxing</li>
+            <li>Real-time video effects</li>
+            <li>Transcoding</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Streams (via Fetch) support</h3>
+          <img src="img/streams-support.png">
+        </section>
+
+        <section data-transition="none" data-background="img/workers.png">
+          <h1>Service Workers</h1>
+
+          <aside class="notes">
+            Service workers live in the layer between.
+          </aside>
+        </section>
+
+        <section data-transition="none" data-background="">
+          <h3>Service Workers: What are they?</h3>
+          <img src="img/service-worker-layers.png" class="no-border">
+        </section>
+
+        <section data-transition="none">
+          <h3>What can we do with Service Workers?</h3>
+
+          <ul>
+            <li>Store video for offline viewing, DVR</li>
+            <li>Share content between pages</li>
+            <li>Pre-fetching content the user is likely to need</li>
+            <li>Transmuxing/Transcoding</li>
+          </ul>
+
+          <aside class="notes">
+            - Offline caching of content (DVR)
+            - Downloading and storing the next 3 podcasts
+            - sharing content between pages
+            - Performance enhancements,  pre-fetching resources that the user is likely to need in the near
+              future, such as the new few pictures in a photo album.
+                    - Reacting to a particular time & date
+                    - Transcoding
+          </aside>
+        </section>
+
+        <section>
+          <div class="stretch">
+            <iframe style="width: 100%; height: 100%;" src="http://caniuse.com/#feat=serviceworkers" width="100%" height="100%"></iframe>
+          </div>
+        </section>
+
+        <section data-background="img/web-components.png">
+          <h1>Web Components</h1>
+        </section>
+
+        <section>
+          <h3>Web Component Specs</h3>
+          <ul>
+            <li>Custom Elements</li>
+            <li>Shadow Dom</li>
+            <li>Templates</li>
+            <li>HTML Imports</li>
+          </ul>
+          <aside class="notes">
+            So web components have been around for a bit but it wasnt until recently that I got excited about what they mean for a web video player. And I'm going to try to show you why that is.
+          </aside>
+        </section>
+
+        <section>
+          <h3>Custom Elements</h3>
+          <pre><code>
+  document.registerElement('my-element', MyElement);
+
+  // html
+  <my-element></my-element>
+
+  // js
+  document.createElement('my-element');
+  document.querySelector('my-element');
+
+  // css
+  my-element {
+    color: red;
+  }
+          </code></pre>
+          <aside class="notes">
+            Custom elements with custom functionality that the browser recognizes
+          </aside>
+        </section>
+
+        <section>
+          <h3><a href="http://geelen.github.io/x-gif/#/http://stream1.gifsoup.com/view2/4891524/bout-o.gif">X-Gif</a></h3>
+          <div class="stretch">
+            <iframe style="width: 100%; height: 100%;" src="http://geelen.github.io/x-gif/#/http://stream1.gifsoup.com/view2/4891524/bout-o.gif" width="100%" height="100%"></iframe>
+          </div>
+        </section>
+
+        <section>
+          <blockquote>
+            <a href="https://www.youtube.com/watch?v=i7mrZ_JsA8A&feature=youtu.be&t=21m24s&autoplay=0">&ldquo;Everything talks HTML&rdquo;</a>
+          </blockquote>
+        </section>
+
+        <section>
+          <h3>x-Playlist</h3>
+
+          <pre><code>
+ &lt;x-playlist loop>
+   <video src="..." controls preload="none"></video>
+   <video src="..." controls preload="none"></video>
+   <audio src="..." controls preload="none"></audio>
+ &lt;/x-playlist>
+          </code></pre>
+
+          <a href="https://github.com/heff/x-playlist">github.com/heff/x-playlist</a>
+        </section>
+
+        <section>
+          Web Components for custom player UIs
+          <pre><code>
+  <player>
+    <button is="play-toggle"></button>
+    <range is="volume-slider"></range>
+    <range is="media-timeline"></range>
+    <button is="player-setting"></button>
+    <button is="player-fullscreen"></button>
+  </player>
+          </code></pre>
+          <aside class="notes">
+            All of the individual controls can be custom elements
+With video.js we've done a lot of work to make that easy, but you still have to learn the video.js API. You don't walk into the project already knowing how to move controls around, but if it were all native looking elements. You know already know how to work with HTML.
+          </aside>
+        </section>
+
+        <section>
+          <h3>Browser Support for WebComponents.js</h3>
+          <img src="browser-support.png" alt="" />
+        </section>
+
+        <section>
+          <div class="stretch">
+            <iframe style="width: 100%; height: 100%;" src="http://webcomponents.org" width="100%" height="100%"></iframe>
+          </div>
+        </section>
+
+        <section data-transition="none" data-background="img/platform.png">
+          <h1>Platform Integrations</h1>
+        </section>
+
+        <section>
+          <h3>Network Info API</h3>
+          <p>
+            Connection type: <span id="connectionType"></span>
+          </p>
+          <small>(try changing your connection)</small>
+
+          <script type="text/javascript">
+            var connectionType = document.querySelector('#connectionType');
+
+            function updateConnectionType(){
+              connectionType.innerHTML = navigator.connection.type;
+              connectionType.style.color = (navigator.connection.type == 'none') ? '#FF7C7A' : '#6EDCFF';
+            }
+
+            navigator.connection.ontypechange = updateConnectionType;
+            updateConnectionType();
+          </script>
+        </section>
+
+        <section>
+          <div class="stretch">
+            <iframe style="width: 100%; height: 100%;" src="http://caniuse.com/#feat=netinfo" width="100%" height="100%"></iframe>
+          </div>
+        </section>
+
+        <section data-background="">
+          <h3>Battery Status</h3>
+          <p>
+            Battery status: <span id="batteryLevel"></span><br>
+            Battery charging: <span id="batteryCharging"></span>
+          </p>
+
+          <button id="checkBattery">Check Battery</button></br>
+          <img id="battery" src="img/battery-0.png" class="no-border">
+
+
+          <script>
+          var batteryLevel = document.querySelector('#batteryLevel');
+          var batteryCharging = document.querySelector('#batteryCharging');
+
+          navigator.getBattery().then(function(battery) {
+
+            function updateStatus() {
+              var level = battery.level * 100 + "%";
+              batteryLevel.innerHTML = level;
+              batteryCharging.innerHTML = (battery.charging ? "Yes" : "No");
+              var step = Math.floor(battery.level * 100 / 10) * 10;
+              document.querySelector('#battery').src = 'img/battery-'+step+'.png';
+
+            }
+            document.querySelector('#checkBattery').onclick = updateStatus;
+            // updateStatus();
+
+            console.log("Battery charging? " + (battery.charging ? "Yes" : "No"));
+            console.log("Battery level: " + battery.level * 100 + "%");
+            console.log("Battery charging time: " + battery.chargingTime + " seconds");
+            console.log("Battery discharging time: " + battery.dischargingTime + " seconds");
+
+            battery.onchargingchange = updateStatus;
+            battery.addEventListener('chargingchange', updateStatus);
+            battery.addEventListener('levelchange', updateStatus);
+
+            // battery.addEventListener('chargingtimechange', function() {
+            //   console.log("Battery charging time: " + battery.chargingTime + " seconds");
+            // });
+            //
+            // battery.addEventListener('dischargingtimechange', function() {
+            //   console.log("Battery discharging time: " + battery.dischargingTime + " seconds");
+            // });
+
+          });
+          </script>
+        </section>
+
+        <section>
+          <div class="stretch">
+            <iframe style="width: 100%; height: 100%;" src="http://caniuse.com/#feat=battery-status" width="100%" height="100%"></iframe>
+          </div>
+        </section>
+
+        <section>
+          <h1>Vibration API</h1>
+        </section>
+
+        <section>
+          <div class="stretch">
+            <iframe style="width: 100%; height: 100%;" src="http://caniuse.com/#feat=vibration" width="100%" height="100%"></iframe>
+          </div>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
