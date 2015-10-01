@@ -386,6 +386,25 @@ With video.js we've done a lot of work to make that easy, but you still have to 
 
         <section>
           <h1>Vibration API</h1>
+blah
+          <video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="640" height="268"
+data-setup='{}'>
+  <source src="http://vjs.zencdn.net/v/oceans.mp4" type='video/mp4'>
+  <source src="http://vjs.zencdn.net/v/oceans.webm" type='video/webm'>
+</video>
+
+<script>
+  var vid = document.getElementById('my_video_1');
+  var vibrated = false;
+
+  vid.addEventListener('timeupdate', function(){
+    if (vid.currentTime > 2 && vibrated === false) {
+      navigator.vibrate(1000);
+      vibrated = true;
+    }
+  });
+</script>
+
         </section>
 
         <section>
