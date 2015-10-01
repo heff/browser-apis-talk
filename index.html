@@ -397,8 +397,13 @@ data-setup='{}'>
   var vid = document.getElementById('my_video_1');
   var vibrated = false;
 
+  navigator.vibrate(1000);
+
+  <button onclick="navigator.vibrate(1000);">Vibrate</button>
+
   vid.addEventListener('timeupdate', function(){
     if (vid.currentTime > 2 && vibrated === false) {
+      console.log('attempted');
       navigator.vibrate(1000);
       vibrated = true;
     }
