@@ -401,9 +401,10 @@ With video.js we've done a lot of work to make that easy, but you still have to 
             function vib() {
               if (!vibrating) {
                 vibrating = true;
+                navigator.vibrate(1000);
                 setTimeout(function(){
                   vibrating = false;
-                });
+                }, 1000);
               }
             }
 
