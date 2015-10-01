@@ -393,13 +393,13 @@ data-setup='{}'>
   <source src="http://vjs.zencdn.net/v/oceans.webm" type='video/webm'>
 </video>
 
+<button onclick="navigator.vibrate(1000);">Vibrate</button>
+
 <script>
   var vid = document.getElementById('my_video_1');
   var vibrated = false;
 
   navigator.vibrate(1000);
-
-  <button onclick="navigator.vibrate(1000);">Vibrate</button>
 
   vid.addEventListener('timeupdate', function(){
     if (vid.currentTime > 2 && vibrated === false) {
